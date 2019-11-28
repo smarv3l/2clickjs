@@ -103,7 +103,7 @@
             parent.removeChild(x[i]);
         }
 
-        x = document.querySelectorAll('iframe[data-2click-type="'+type+'"]');
+        x = document.querySelectorAll('[data-2click-type="'+type+'"]');
         for (i = 0; i < x.length; i++) {
             x[i].src = x[i].getAttribute("data-src");
         }
@@ -144,7 +144,7 @@
         }
 
         for (i = 0; i < this.types.length; i++) {
-            var selector = document.querySelectorAll('iframe[data-2click-type="'+this.types[i].type+'"]');
+            var selector = document.querySelectorAll('[data-2click-type="'+this.types[i].type+'"]');
 
             var x;
             if(!getCookie(config.cookieNamespace+this.types[i].type)){
