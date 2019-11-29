@@ -4,6 +4,12 @@
  * 
  * Licensed MIT © 2018-2019 Michael Lorer - https://www.01-scripts.de/
  */
+/*
+function wresize(el, wrapper) {
+    console.log(el, wrapper);
+    wrapper.style.width = el.clientWidth+'px';
+    wrapper.style.height = el.clientHeight+'px';
+}*/
 
  var _2ClickIframePrivacy = new function() {
 
@@ -50,8 +56,14 @@
     function wrap(el, wrapper, type, text) {
         el.parentNode.insertBefore(wrapper, el);
         wrapper.className = 'privacy-msg '+type+'-msg';
+/*
         wrapper.style.width = el.clientWidth+'px';
         wrapper.style.height = el.clientHeight+'px';
+
+        window.addEventListener("resize", function() {
+            wresize(el, wrapper);
+        }); */
+
         wrapper.innerHTML = text +'<a href="#foo" onclick="_2ClickIframePrivacy.EnableContent(\''+ type +'\'); return false;">'+config.showContentLabel+'</a>';
         if(config.enableCookies){
             wrapper.innerHTML = wrapper.innerHTML + '<br /><input type="checkbox" name="remind-\''+ type +'\'" /> <label>'+config.rememberChoiceLabel+'</label>';
