@@ -42,9 +42,6 @@ function wresize(el, wrapper) {
         const pattern = /{\s*(\w+?)\s*}/g; // {property}
         return template.replace(pattern, (_, token) => data[token] || '');
     }
-    
-    this.config.types = 
-    );
 
     function setCookie(name, value, days) {
         var d = new Date;
@@ -115,7 +112,7 @@ function wresize(el, wrapper) {
 
     this.init = function (Userconfig) {
         // Read UserConfiguration:
-        Object.assign(config, Userconfig);
+        this.config = Object.assign(config, Userconfig);
 
         for (i = 0; i < this.config.types.length; i++) {
             var selector = document.querySelectorAll('[data-2click-type="'+this.config.types[i].type+'"]');
