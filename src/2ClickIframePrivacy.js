@@ -3,15 +3,16 @@
  * based on https://github.com/01-Scripts/2Click-Iframe-Privacy
  * 
  * Licensed MIT © 2018-2019 Michael Lorer - https://www.01-scripts.de/
+ * Licensed MIT  Alexander Walther - https://www.alexplus.de/
  */
-
  
  var _2ClickPrivacy = new function() {
 
+    // Default-Konfiguration
     var config = {
         enableCookies: true,
         useSessionCookie: true,
-        cookieNamespace: '_2ClickIPEnable-',
+        cookieNamespace: '2click_',
         showContentLabel: 'Inhalt anzeigen',
         rememberChoiceLabel: 'Auswahl merken',
         privacyPolicyLabel: 'Datenschutzerklärung',
