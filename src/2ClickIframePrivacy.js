@@ -21,7 +21,21 @@ function wresize(el, wrapper) {
         rememberChoiceLabel: 'Auswahl merken',
         privacyPolicyLabel: 'Datenschutzerklärung',
         privacyPolicyUrl: false,
-        wrapperHtml: '<div class="2click-overlay"><div class="2click-overlay-headline">%headline%</div><div class="2click-overlay-text">%text%</div><div class="2click-overlay-options"><input data-2click-button="show" type="button" value="%show%" onclick="_2ClickPrivacy.EnableContent(%type%, 1); return false;" /><input data-2click-button="remember" type="button" value="%remember%" /><a href="%privacyUrl%">%privacyLabel%</div></div>'
+        wrapperHtml: '<div class="2click-overlay"><div class="2click-overlay-headline">%headline%</div><div class="2click-overlay-text">%text%</div><div class="2click-overlay-options"><input data-2click-button="show" type="button" value="%show%" onclick="_2ClickPrivacy.EnableContent(%type%, 1); return false;" /><input data-2click-button="remember" type="button" value="%remember%" /><a href="%privacyUrl%">%privacyLabel%</div></div>',
+        types: new Array(
+            {
+                type: 'video',
+                description: 'Zum Aktivieren des Videos bitte auf den Link klicken. Durch das Aktivieren von eingebetteten Videos werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
+            },
+            {
+                type: 'map',
+                description: 'Zum Aktivieren der eingebetteten Karte bitte auf den Link klicken. Durch das Aktivieren werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
+            },
+            {
+                type: 'calendar',
+                description: 'Zum Aktivieren des eingebetteten Kalenders bitte auf den Link klicken. Durch das Aktivieren werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
+            }
+        )
     };
 
     function replaceMe(template, data) {
@@ -29,19 +43,7 @@ function wresize(el, wrapper) {
         return template.replace(pattern, (_, token) => data[token] || '');
     }
     
-    this.types = new Array(
-        {
-            type: 'video',
-            description: 'Zum Aktivieren des Videos bitte auf den Link klicken. Durch das Aktivieren von eingebetteten Videos werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
-        },
-        {
-            type: 'map',
-            description: 'Zum Aktivieren der eingebetteten Karte bitte auf den Link klicken. Durch das Aktivieren werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
-        },
-        {
-            type: 'calendar',
-            description: 'Zum Aktivieren des eingebetteten Kalenders bitte auf den Link klicken. Durch das Aktivieren werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
-        }
+    this.config.types = 
     );
 
     function setCookie(name, value, days) {
@@ -104,48 +106,24 @@ function wresize(el, wrapper) {
             x[i].src = x[i].getAttribute("data-src");
         }
 
-        for (i = 0; i < this.types.length; i++) {
-            if(this.types[i].type == type && this.types[i].callback) {
-                window[this.types[i].callback]();
+        for (i = 0; i < this.config.types.length; i++) {
+            if(this.config.types[i].type == type && this.config.types[i].callback) {
+                window[this.config.types[i].callback]();
             }
         }
     }
 
     this.init = function (Userconfig) {
         // Read UserConfiguration:
-        if (typeof Userconfig.enableCookies !== 'undefined') {
-            config.enableCookies = Userconfig.enableCookies;
-        }
-        if (typeof Userconfig.useSessionCookie !== 'undefined') {
-            config.useSessionCookie = Userconfig.useSessionCookie;
-        }
-        if (typeof Userconfig.cookieNamespace !== 'undefined') {
-            config.cookieNamespace = Userconfig.cookieNamespace;
-        }
-        if (typeof Userconfig.privacyPolicyUrl !== 'undefined') {
-            config.privacyPolicyUrl = Userconfig.privacyPolicyUrl;
-        }
-        if (typeof Userconfig.showContentLabel !== 'undefined') {
-            config.showContentLabel = Userconfig.showContentLabel;
-        }
-        if (typeof Userconfig.rememberChoiceLabel !== 'undefined') {
-            config.rememberChoiceLabel = Userconfig.rememberChoiceLabel;
-        }
-        if (typeof Userconfig.privacyPolicyLabel !== 'undefined') {
-            config.privacyPolicyLabel = Userconfig.privacyPolicyLabel;
-        }
+        Object.assign(config, Userconfig);
 
-        if (Array.isArray(Userconfig.CustomTypes)) {
-            this.types = Userconfig.CustomTypes;
-        }
-
-        for (i = 0; i < this.types.length; i++) {
-            var selector = document.querySelectorAll('[data-2click-type="'+this.types[i].type+'"]');
+        for (i = 0; i < this.config.types.length; i++) {
+            var selector = document.querySelectorAll('[data-2click-type="'+this.config.types[i].type+'"]');
 
             var x;
-            if(!getCookie(config.cookieNamespace+this.types[i].type)){
+            if(!getCookie(config.cookieNamespace+this.config.types[i].type)){
                 for (x = 0; x < selector.length; x++) {
-                    wrap(selector[x], document.createElement('div'), this.types[i].type, this.types[i].description);
+                    wrap(selector[x], document.createElement('div'), this.config.types[i].type, this.config.types[i].description);
                 }
             }else{
                 for (x = 0; x < selector.length; x++) {
