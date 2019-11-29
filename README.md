@@ -1,13 +1,13 @@
-# 2Click-Iframe-Privacy
-Easy way to implement a 2-click solution for every IFrame embedded content (like Youtube videos, Google maps, Google calendar and more) using vanilla JavaScript.
-[Demo](https://01-scripts.github.io/2Click-Iframe-Privacy/)
+# 2Click-Privacy
+
+Easy way to implement a 2-click solution for every external content (like YouTube videos, Google Maps) using vanilla JavaScript.
+
+Based on [2Click-Iframe-Privacy](https://01-scripts.github.io/2Click-Iframe-Privacy/)
 
 ## Setup
 
-First, include the script located in the `dist` folder.
-
 ```html
-<script src="dist/2ClickIframePrivacy.min.js"></script>
+<script src="2ClickPrivacy.js"></script>
 ```
 
 Add some CSS into one of your CSS files or include it directly:
@@ -35,7 +35,7 @@ Now, you need to instantiate it:
 
 ```html
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', _2ClickIframePrivacy.init(''));
+document.addEventListener('DOMContentLoaded', _2ClickPrivacy.init(''));
 </script>
 ```
 
@@ -56,38 +56,56 @@ Replace `src=` with `data-src=` and add an empty attribute `src=""`, add the cla
 ```html
 <iframe src="" class="privacy-map" data-src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2684819.3977904147!2d11.4079934!3d48.91741285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sde!2sde!4v1526416354209" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 ```
+## For JS content
 
-## For Google Calendar
-
-Replace `src=` with `data-src=` and add an empty attribute `src=""`, add the class `privacy-calendar` to the IFrame:
 
 ```html
-<iframe src="" data-src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=r0i0in591m4os0150vjhohmjj8%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Europe%2FBerlin" class="privacy-calendar" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+<div data-2click-type="google_maps" id="map"></div>
 ```
 
-# Demo
+config:
 
-Have a [look here](https://01-scripts.github.io/2Click-Iframe-Privacy/demo.html).
+```
+<script>
+var _2ClickConfig = {
+    CustomTypes: Array(
+        {
+            type: 'google_maps',
+            callback: 'maps_init',
+            description: 'Please enter a text to show before loading the content'
+        }
+    )
+};
+
+function maps_init() {
+    // insert Google Maps init code;
+}
+document.addEventListener('DOMContentLoaded', _2ClickPrivacy.init(_2ClickConfig));
+</script>
+```
 
 # More options
 
-More information regarding the possible configuration options is available soon.  
-Until then please have a look at the following code:
-
 ```html
 <script type="text/javascript">
-var _2ClickIframePrivacyConfig = {
+
+function ownvideo_callback() {
+    // alert("Callback ausgeführt");
+}
+
+var _2ClickPrivacyConfig = {
     enableCookies: true,
     useSessionCookie: true,
     CustomTypes: Array(
         {
-            type: 'ownvideo', 
-            class: 'privacy-ownvideo', 
+            type: 'ownvideo',
+            class: 'privacy-ownvideo',
+            callback: 'ownvideo_callback',
             description: 'Please enter a text to show before loading the content<br />'
         }
     )
 };
 
-document.addEventListener('DOMContentLoaded', _2ClickIframePrivacy.init(_2ClickIframePrivacyConfig));
+document.addEventListener('DOMContentLoaded', _2ClickPrivacy.init(_2ClickIframePrivacyConfig));
 </script>
 ```

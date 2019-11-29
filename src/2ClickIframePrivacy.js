@@ -4,6 +4,12 @@
  * 
  * Licensed MIT © 2018-2019 Michael Lorer - https://www.01-scripts.de/
  */
+/*
+function wresize(el, wrapper) {
+    console.log(el, wrapper);
+    wrapper.style.width = el.clientWidth+'px';
+    wrapper.style.height = el.clientHeight+'px';
+}*/
 
  var _2ClickIframePrivacy = new function() {
 
@@ -25,18 +31,15 @@
     
     this.types = new Array(
         {
-            type: 'video', 
-            class: 'privacy-video', 
+            type: 'video',
             description: 'Zum Aktivieren des Videos bitte auf den Link klicken. Durch das Aktivieren von eingebetteten Videos werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
         },
         {
-            type: 'map', 
-            class: 'privacy-map', 
+            type: 'map',
             description: 'Zum Aktivieren der eingebetteten Karte bitte auf den Link klicken. Durch das Aktivieren werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
         },
         {
-            type: 'calendar', 
-            class: 'privacy-calendar', 
+            type: 'calendar',
             description: 'Zum Aktivieren des eingebetteten Kalenders bitte auf den Link klicken. Durch das Aktivieren werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
         }
     );
@@ -56,16 +59,16 @@
         return v ? v[2] : null;
     }
 
-    function wrap(el, wrapper, type, selclass, text) {
+    function wrap(el, wrapper, type, text) {
         el.parentNode.insertBefore(wrapper, el);
-        wrapper.className = '2click-overlay 2click-overlay-'+type+';
+        wrapper.className = '2click-overlay 2click-overlay-'+type;
         wrapper.style.width = el.clientWidth+'px';
         wrapper.style.height = el.clientHeight+'px';
         wrapper.innerHTML = replaceMe(config.wrapperHtml, ([config] + [type] + [text]));
         wrapper.appendChild(el);
     }
 
-    this.EnableContent = function (type, selclass, remember = 1){
+    this.EnableContent = function (type, remember = 1){
         var i;
 
         // Cookies globally enabled by config?
@@ -80,12 +83,12 @@
             }
         }
 
-        var x = document.querySelectorAll('div.'+selclass+'-msg p');
+        var x = document.querySelectorAll('div.'+type+'-msg p');
         for (i = 0; i < x.length; i++) {
             x[i].parentNode.removeChild(x[i]);
         }
 
-        x = document.querySelectorAll('div.'+selclass+'-msg');
+        x = document.querySelectorAll('div.'+type+'-msg');
         for (i = 0; i < x.length; i++) {
             var parent = x[i].parentNode;
 
@@ -96,9 +99,15 @@
             parent.removeChild(x[i]);
         }
 
-        x = document.getElementsByClassName(selclass);
+        x = document.querySelectorAll('[data-2click-type="'+type+'"]');
         for (i = 0; i < x.length; i++) {
             x[i].src = x[i].getAttribute("data-src");
+        }
+
+        for (i = 0; i < this.types.length; i++) {
+            if(this.types[i].type == type && this.types[i].callback) {
+                window[this.types[i].callback]();
+            }
         }
     }
 
@@ -131,11 +140,12 @@
         }
 
         for (i = 0; i < this.types.length; i++) {
-            var selector = document.getElementsByClassName(this.types[i].class);
+            var selector = document.querySelectorAll('[data-2click-type="'+this.types[i].type+'"]');
+
             var x;
             if(!getCookie(config.cookieNamespace+this.types[i].type)){
                 for (x = 0; x < selector.length; x++) {
-                    wrap(selector[x], document.createElement('div'), this.types[i].type, this.types[i].class, this.types[i].description);
+                    wrap(selector[x], document.createElement('div'), this.types[i].type, this.types[i].description);
                 }
             }else{
                 for (x = 0; x < selector.length; x++) {
