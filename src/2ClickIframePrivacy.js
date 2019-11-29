@@ -14,8 +14,14 @@
         showContentLabel: 'Inhalt anzeigen',
         rememberChoiceLabel: 'Auswahl merken',
         privacyPolicyLabel: 'Datenschutzerklärung',
-        privacyPolicyUrl: false
+        privacyPolicyUrl: false,
+        wrapperHtml: '<div class="2click-overlay"><div class="2click-overlay-headline">%headline%</div><div class="2click-overlay-text">%text%</div><div class="2click-overlay-options"><input data-2click-button="show" type="button" value="%show%" onclick="_2ClickPrivacy.EnableContent(%type%, 1); return false;" /><input data-2click-button="remember" type="button" value="%remember%" /><a href="%privacyUrl%">%privacyLabel%</div></div>'
     };
+
+    function replaceMe(template, data) {
+        const pattern = /{\s*(\w+?)\s*}/g; // {property}
+        return template.replace(pattern, (_, token) => data[token] || '');
+    }
     
     this.types = new Array(
         {
@@ -52,35 +58,19 @@
 
     function wrap(el, wrapper, type, selclass, text) {
         el.parentNode.insertBefore(wrapper, el);
-        wrapper.className = 'privacy-msg '+selclass+'-msg';
+        wrapper.className = '2click-overlay 2click-overlay-'+type+';
         wrapper.style.width = el.clientWidth+'px';
         wrapper.style.height = el.clientHeight+'px';
-        wrapper.innerHTML = text +'<a href="#foo" onclick="_2ClickIframePrivacy.EnableContent(\''+ type +'\', \''+ selclass +'\'); return false;">'+config.showContentLabel+'</a>';
-        if(config.enableCookies){
-            wrapper.innerHTML = wrapper.innerHTML + '<br /><input type="checkbox" name="remind-\''+ selclass +'\'" /> <label>'+config.rememberChoiceLabel+'</label>';
-        }
-        if(config.privacyPolicyUrl){
-            wrapper.innerHTML = wrapper.innerHTML + '<br /><a href="'+config.privacyPolicyUrl+'">'+config.privacyPolicyLabel+'</a>';
-        }
-        wrapper.innerHTML = '<p>' + wrapper.innerHTML + '</p>';
+        wrapper.innerHTML = replaceMe(config.wrapperHtml, ([config] + [type] + [text]));
         wrapper.appendChild(el);
     }
 
-    this.EnableContent = function (type, selclass){
+    this.EnableContent = function (type, selclass, remember = 1){
         var i;
 
         // Cookies globally enabled by config?
         if(config.enableCookies){
-            var remind = false;
-            var x = document.querySelectorAll('div.'+selclass+'-msg p input');
-            // Check if any checkbox for the selected class was checked. If so a cookie will be set
-            for (i = 0; i < x.length; i++) {
-                if(x[i].checked == true){
-                    remind = true;
-                }
-            }
-
-            if(remind){
+            if(remember){
                 if(config.useSessionCookie){
                     setSessionCookie(config.cookieNamespace+type, '1');
                 }
