@@ -4,6 +4,8 @@
  * 
  * Licensed MIT © 2018-2019 Michael Lorer - https://www.01-scripts.de/
  */
+
+ 
  var _2ClickPrivacy = new function() {
 
     var config = {
@@ -14,7 +16,7 @@
         rememberChoiceLabel: 'Auswahl merken',
         privacyPolicyLabel: 'Datenschutzerklärung',
         privacyPolicyUrl: false,
-        wrapperHtml: '<div class="2click-overlay"><div class="2click-overlay-headline">%headline%</div><div class="2click-overlay-text">%text%</div><div class="2click-overlay-options"><input data-2click-button="show" type="button" value="%show%" onclick="_2ClickPrivacy.EnableContent(%type%, 1); return false;" /><input data-2click-button="remember" type="button" value="%remember%" /><a href="%privacyUrl%">%privacyLabel%</div></div>',
+        wrapperHtml: '<div class="2click-overlay"><div class="2click-overlay-headline">{headline}</div><div class="2click-overlay-text">{text}</div><div class="2click-overlay-options"><input data-2click-button="show" type="button" value="{show}" onclick="_2ClickPrivacy.EnableContent({type}, 1); return false;" /><input data-2click-button="remember" type="button" value="{remember}" /><a href="{privacyUrl}">{privacyLabel}</div></div>',
         types: new Array(
             {
                 type: 'video',
