@@ -1,17 +1,10 @@
 /*!
- * 2Click-Iframe-Privacy v0.2.0
- * https://github.com/01-Scripts/2Click-Iframe-Privacy
+ * 2Click-Privacy v0.3-dev
+ * based on https://github.com/01-Scripts/2Click-Iframe-Privacy
  * 
  * Licensed MIT © 2018-2019 Michael Lorer - https://www.01-scripts.de/
  */
-/*
-function wresize(el, wrapper) {
-    console.log(el, wrapper);
-    wrapper.style.width = el.clientWidth+'px';
-    wrapper.style.height = el.clientHeight+'px';
-}*/
-
- var _2ClickIframePrivacy = new function() {
+ var _2ClickPrivacy = new function() {
 
     var config = {
         enableCookies: true,
