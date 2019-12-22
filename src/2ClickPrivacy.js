@@ -1,17 +1,18 @@
 /*!
- * 2Click-Iframe-Privacy v0.2.0
+ * 2Click-Privacy v0.5
+ * Based on
  * https://github.com/01-Scripts/2Click-Iframe-Privacy
- * 
- * Licensed MIT © 2018-2019 Michael Lorer - https://www.01-scripts.de/
+ * Licensed MIT 2019 Alexnader Walther www.alexplus.de
  */
 /*
+
 function wresize(el, wrapper) {
     console.log(el, wrapper);
     wrapper.style.width = el.clientWidth+'px';
     wrapper.style.height = el.clientHeight+'px';
 }*/
 
- var _2ClickIframePrivacy = new function() {
+ var _2ClickPrivacy = new function() {
 
     var config = {
         enableCookies: true,
@@ -23,20 +24,7 @@ function wresize(el, wrapper) {
         privacyPolicyUrl: false
     };
     
-    this.types = new Array(
-        {
-            type: 'video',
-            description: 'Zum Aktivieren des Videos bitte auf den Link klicken. Durch das Aktivieren von eingebetteten Videos werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
-        },
-        {
-            type: 'map',
-            description: 'Zum Aktivieren der eingebetteten Karte bitte auf den Link klicken. Durch das Aktivieren werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
-        },
-        {
-            type: 'calendar',
-            description: 'Zum Aktivieren des eingebetteten Kalenders bitte auf den Link klicken. Durch das Aktivieren werden Daten an den jeweiligen Anbieter übermittelt. Weitere Informationen können unserer Datenschutzerklärung entnommen werden.<br />'
-        }
-    );
+    this.types = new Array();
 
     function setCookie(name, value, days) {
         var d = new Date;
