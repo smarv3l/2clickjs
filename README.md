@@ -9,7 +9,7 @@ Mit Dank an [2Click-Iframe-Privacy](https://01-scripts.github.io/2Click-Iframe-P
 **Skript einfügen**
 
 ```html
-<script src="2ClickPrivacy.js"></script>
+<script src="2ClickPrivacy.min.js"></script>
 ```
 
 **CSS-Code für das Overlay festlegen**
@@ -47,8 +47,12 @@ Mit Dank an [2Click-Iframe-Privacy](https://01-scripts.github.io/2Click-Iframe-P
             alert("Callback google maps ausgeführt");
         }
 
-        function init_instagram() {
-            alert("Callback instagram ausgeführt");
+        function init_twitter() {
+            var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+            o.src = "https://platform.twitter.com/widgets.js";
+            s.parentNode.insertBefore(o, s);
         }
 
         var _2ClickConfig = {
@@ -62,9 +66,9 @@ Mit Dank an [2Click-Iframe-Privacy](https://01-scripts.github.io/2Click-Iframe-P
                 callback: 'init_google_maps',
                 description: 'Please enter a text to show before loading the content<br />'
             }, {
-                type: 'instagram',
-                class: 'instagram',
-                callback: 'init_instagram',
+                type: 'twitter',
+                class: 'twitter',
+                callback: 'init_twitter',
                 description: 'Please enter a text to show before loading the content<br />'
             })
 
@@ -89,8 +93,8 @@ Verschiebe den Inhalt von `src=` nach `data-src=` und füge ein leeres Attribut 
 
 ## beliebiges Element
 
-Zum Beispiel Instagram: 
+Zum Beispiel Twitter: 
 
 ```html
-<div data-2click-type="instagram" style="width: 100%; height: 600px;">
+<div data-2click-type="twitter" style="width: 100%; height: 600px;"><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Sorry losers and haters, but my I.Q. is one of the highest -and you all know it! Please don&#39;t feel so stupid or insecure,it&#39;s not your fault</p>&mdash; Donald J. Trump (@realDonaldTrump) <a href="https://twitter.com/realDonaldTrump/status/332308211321425920?ref_src=twsrc%5Etfw">May 9, 2013</a></blockquote><!-- Script-Bereich entfernen und stattdessen in den Callback legen --></div>
 ```
