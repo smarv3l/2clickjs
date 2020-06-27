@@ -17,7 +17,12 @@ Mit Dank an [2Click-Iframe-Privacy](https://01-scripts.github.io/2Click-Iframe-P
 ```html
     <style type="text/css">
         div.privacy-msg {
-            position: relative;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            margin: 0;
         }
 
         div.privacy-msg p {
@@ -30,6 +35,7 @@ Mit Dank an [2Click-Iframe-Privacy](https://01-scripts.github.io/2Click-Iframe-P
             right: 0;
             top: 0;
             margin: 0;
+            z-index: 1;
         }
 
         div.privacy-msg p,
