@@ -52,7 +52,7 @@ function wresize(el, wrapper) {
             wresize(el, wrapper);
         }); */
 
-        wrapper.innerHTML = text +'<a href="#foo" onclick="_2ClickIframePrivacy.EnableContent(\''+ type +'\'); return false;">'+config.showContentLabel+'</a>';
+        wrapper.innerHTML = text +'<a href="#foo" onclick="_2ClickPrivacy.EnableContent(\''+ type +'\'); return false;">'+config.showContentLabel+'</a>';
         if(config.enableCookies){
             wrapper.innerHTML = wrapper.innerHTML + '<br /><input type="checkbox" name="remind-\''+ type +'\'" /> <label>'+config.rememberChoiceLabel+'</label>';
         }
